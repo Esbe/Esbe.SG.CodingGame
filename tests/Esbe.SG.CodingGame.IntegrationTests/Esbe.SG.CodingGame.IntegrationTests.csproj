@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <RootNamespace>Esbe.SG.CodingGame</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.8.1" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Esbe.SG.CodingGame\Esbe.SG.CodingGame.csproj" />
+  </ItemGroup>
+
+</Project>
