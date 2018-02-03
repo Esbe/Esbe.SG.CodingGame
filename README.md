@@ -51,7 +51,10 @@ Test Input:
 
 ## Assumptions/Decisions
 
-- The top right corner of the board refers to conventional axis representation ![Image of conventional x,y axes](https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg), not ![Image of unconventional x,y axes](https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png).
+- The top right corner of the board refers to conventional axis representation 
+  ![Image of conventional x,y axes](https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg)
+  and **not** 
+  ![Image of unconventional x,y axes](https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png).
 - A board with a top-right position of {0,0} is permitted.
 - Extra spaces are permitted on both board and drone configuration lines, as the user intent is still clear.
 - A drone can be configured with either negative x or y, but will fail from being placed on the board.
