@@ -41,9 +41,9 @@ namespace Esbe.SG.CodingGame
         ///     the y axis increases down !
         /// </summary>
         /// <param name="left">The left x axis value.</param>
-        /// <param name="top">The top y axis value (in usual x,y axises this would be bottom).</param>
+        /// <param name="top">The top y axis value (in usual x,y axes this would be bottom).</param>
         /// <param name="right">The right x axis value.</param>
-        /// <param name="bottom">The bottom y axis value (in usual x,y axises this would be top).</param>
+        /// <param name="bottom">The bottom y axis value (in usual x,y axes this would be top).</param>
         /// <returns></returns>
         public static RectangularBattlefieldArea FromLTRB(int left, int top, int right, int bottom)
         {

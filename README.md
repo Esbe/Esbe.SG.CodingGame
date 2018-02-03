@@ -1,5 +1,6 @@
 ## Coding game
- 
+
+```
 This problem requires some kind of input. Feel free to implement any mechanism for feeding input. You can for example use hard coded data within a unit test. You should provide sufficient evidence that your solution is complete. Also, your solution should benefit from a high test coverage.
 You can use any open source library you believe relevant for this problem.
 The code you write should be of production quality, and most importantly, it should be code you are proud of.
@@ -42,6 +43,7 @@ Test Input:
 <*<*<*<**
 3 3 E
 **>**>*>>*
+```
 
 ## Usage
 
@@ -49,7 +51,7 @@ Test Input:
 
 ## Assumptions/Decisions
 
-- The top right corner of the board refers to conventional axis representation (https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg), not https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png .
+- The top right corner of the board refers to conventional axis representation ![Image of conventional x,y axes](https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg), not ![Image of unconventional x,y axes](https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png).
 - A board with a top-right position of {0,0} is permitted.
 - Extra spaces are permitted on both board and drone configuration lines, as the user intent is still clear.
 - A drone can be configured with either negative x or y, but will fail from being placed on the board.
