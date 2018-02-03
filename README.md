@@ -45,16 +45,18 @@ Test Input:
 
 ## Usage
 
-- 
+- The library can currently only be run from NUnit tests, so ReSharper, NCrunch, TestDriven.net or any other test runner is required.
 
 ## Assumptions/Decisions
 
 - The top right corner of the board refers to conventional axis representation (https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg), not https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png .
 - A board with a top-right position of {0,0} is permitted.
-- Extra spaces are permitted on both board and drone configuration lines, as the intention of the user is still clear.
-- A drone can be configured with a negative point, but will fail from being placed on the board.
+- Extra spaces are permitted on both board and drone configuration lines, as the user intent is still clear.
+- A drone can be configured with either negative x or y, but will fail from being placed on the board.
+- Two drones can overlap at the same point on the battlefield.
 - Extra spaces are not permitted on drone movement lines, as each character should represent a known drone movement.
-- Output format is undefined in requirements, so output is: "{Drone # in order of insertion, starting at 1} {X position} {Y position} {Orientation}"  
+- Movement line can be omitted if last line of content.
+- Output format is undefined in requirements, so output is: "{X position} {Y position} {Orientation}"  
 - Output is simply written to Console.
 - No Logger is used, as all errors bubble up as exceptions.
 
@@ -63,3 +65,5 @@ Test Input:
 - 
 
 ## Extensibility
+
+-

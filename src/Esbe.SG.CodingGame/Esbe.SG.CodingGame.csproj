@@ -9,4 +9,8 @@
     <Compile Remove="OrientedPoint.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="11.1.0" />
+  </ItemGroup>
+
 </Project>

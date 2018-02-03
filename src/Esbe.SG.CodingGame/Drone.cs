@@ -1,100 +1,33 @@
 ﻿using System.Drawing;
+using JetBrains.Annotations;
 
 namespace Esbe.SG.CodingGame
 {
-    public class Drone
+    internal class Drone : IDrone
     {
-        private Point _point;
+        private IBattlefieldArea _battlefieldArea = new UnlimitedBattlefieldArea();
 
         private Drone(Point point, Orientation orientation)
         {
-            _point = point;
+            Point = point;
             Orientation = orientation;
         }
 
-        public int X => _point.X;
-        public int Y => _point.Y;
-
-        public Orientation Orientation { get; private set; }
+        /// <summary>
+        ///     Gets the current drone x,y position.
+        /// </summary>
+        /// <value>
+        ///     The current drone x,y position.
+        /// </value>
+        public Point Point { get; private set; }
 
         /// <summary>
-        ///     Moves the drone by Turns the drone right (clockwise) by 90 degrees.
+        ///     Gets the current drone cardinal position.
         /// </summary>
-        public void MoveWithin(IPolygon polygon)
-        {
-            //            switch (Orientation)
-            //            {
-            //                case Orientation.N:
-            //                    if (_point.Y < rectangle.Top)
-            //                    {
-            //                        _point.Y++;
-            //                    }
-            //
-            //                    return;
-            //                case Orientation.E:
-            //                    if (_point.X < rectangle.Right)
-            //                    {
-            //                        _point.X++;
-            //                    }
-            //
-            //                    return;
-            //                case Orientation.S:
-            //                    if (_point.Y > rectangle.Bottom)
-            //                    {
-            //                        _point.Y--;
-            //                    }
-            //
-            //                    return;
-            //                case Orientation.W:
-            //                    if (_point.X > rectangle.Left)
-            //                    {
-            //                        _point.X--;
-            //                    }
-            //
-            //                    return;
-            //            }
-
-            var movePoint = CalculateMovePoint();
-            if (polygon.IsOverlapping(movePoint))
-            {
-                _point = movePoint;
-            }
-        }
-
-        private Point CalculateMovePoint()
-        {
-            switch (Orientation)
-            {
-                case Orientation.N:
-                    if (_point.Y == int.MaxValue)
-                    {
-                        return _point;
-                    }
-
-                    return new Point(_point.X, _point.Y + 1);
-                case Orientation.E:
-                    if (_point.X == int.MaxValue)
-                    {
-                        return _point;
-                    }
-
-                    return new Point(_point.X + 1, _point.Y);
-                case Orientation.S:
-                    if (_point.Y == int.MinValue)
-                    {
-                        return _point;
-                    }
-
-                    return new Point(_point.X, _point.Y - 1);
-                default:
-                    if (_point.X == int.MinValue)
-                    {
-                        return _point;
-                    }
-
-                    return new Point(_point.X - 1, _point.Y);
-            }
-        }
+        /// <value>
+        ///     The current drone cardinal position.
+        /// </value>
+        public Orientation Orientation { get; private set; }
 
         /// <summary>
         ///     Turns the drone right (clockwise) by 90 degrees.
@@ -116,24 +49,110 @@ namespace Esbe.SG.CodingGame
                 : Orientation - 1;
         }
 
-        public bool IsWithinPolygon(IPolygon polygon)
+        /// <summary>
+        ///     Sets the battlefield area in which the drone is allowed to move.
+        /// </summary>
+        /// <param name="battlefieldArea">The battlefield area.</param>
+        public void SetBattlefieldArea([NotNull] IBattlefieldArea battlefieldArea)
         {
-            return polygon.IsOverlapping(_point);
+            _battlefieldArea = battlefieldArea;
         }
 
+        /// <summary>
+        ///     Moves the drone by one unit in the orientation it is facing, within the limits of the battlefield area.
+        /// </summary>
+        public void Move()
+        {
+            var movePoint = CalculateMovePoint();
+            if (_battlefieldArea.Contains(movePoint))
+            {
+                Point = movePoint;
+            }
+        }
+
+        /// <summary>
+        ///     Determines whether the drone is in battlefield area.
+        /// </summary>
+        /// <returns>
+        ///     <c>true</c> if is in battlefield area; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsInBattlefieldArea()
+        {
+            return _battlefieldArea.Contains(Point);
+        }
+
+        /// <summary>
+        ///     Calculates the position the drone will be in after having moved, without any consideration for the battlefield
+        ///     area.
+        /// </summary>
+        /// <returns>The potential position of the drone after having moved.</returns>
+        private Point CalculateMovePoint()
+        {
+            switch (Orientation)
+            {
+                case Orientation.N:
+                    if (Point.Y == int.MaxValue)
+                    {
+                        return Point;
+                    }
+
+                    return new Point(Point.X, Point.Y + 1);
+                case Orientation.E:
+                    if (Point.X == int.MaxValue)
+                    {
+                        return Point;
+                    }
+
+                    return new Point(Point.X + 1, Point.Y);
+                case Orientation.S:
+                    if (Point.Y == int.MinValue)
+                    {
+                        return Point;
+                    }
+
+                    return new Point(Point.X, Point.Y - 1);
+                default:
+                    if (Point.X == int.MinValue)
+                    {
+                        return Point;
+                    }
+
+                    return new Point(Point.X - 1, Point.Y);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        ///     A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"{Point.X} {Point.Y} {Orientation}";
+        }
+
+        /// <summary>
+        ///     Creates a new instance of drone with the specified point and orientation.
+        /// </summary>
+        /// <param name="point">The point.</param>
+        /// <param name="orientation">The orientation.</param>
+        /// <returns></returns>
         public static Drone FromPoint(Point point, Orientation orientation)
         {
             return new Drone(point, orientation);
         }
 
+        /// <summary>
+        ///     Creates a new instance of drone with the specified x, y and orientation.
+        /// </summary>
+        /// <param name="x">The x position.</param>
+        /// <param name="y">The y position.</param>
+        /// <param name="orientation">The orientation.</param>
+        /// <returns></returns>
         public static Drone FromPosition(int x, int y, Orientation orientation)
         {
             return new Drone(new Point(x, y), orientation);
-        }
-
-        public void Move()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

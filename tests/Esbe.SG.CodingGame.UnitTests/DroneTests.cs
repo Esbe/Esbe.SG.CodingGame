@@ -4,16 +4,16 @@ using NUnit.Framework;
 
 namespace Esbe.SG.CodingGame
 {
-    public class DroneTests
+    internal class DroneTests
     {
         private static readonly Point AnyPosition = new Point(0, 0);
         private static readonly Point OriginPoint = new Point(0, 0);
-        private Mock<IPolygon> _polygonMock;
+        private Mock<IBattlefieldArea> _battlefieldAreaMock;
 
         [SetUp]
         public void SetUp()
         {
-            _polygonMock = new Mock<IPolygon>();
+            _battlefieldAreaMock = new Mock<IBattlefieldArea>();
         }
 
         [TestCase(Orientation.N, Orientation.E)]
@@ -47,133 +47,145 @@ namespace Esbe.SG.CodingGame
         [Test]
         public void GivenAnEastOrientation_WhenMovingWithinPolygon_ThenWillIncreaseXBy1()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.E);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(1));
+            Assert.That(drone.Point.X, Is.EqualTo(1));
         }
 
         [Test]
         public void GivenAnEastOrientation_WhenMovingOutsideOfPolygon_ThenWillNotIncreaseX()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(false);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(false);
             var drone = Drone.FromPoint(OriginPoint, Orientation.E);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(0));
+            Assert.That(drone.Point.X, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenAnEastOrientation_WhenMoving_ThenWillNotChangeYValue()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.E);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(0));
+            Assert.That(drone.Point.Y, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenAWestOrientation_WhenMovingWithinPolygon_ThenWillDecreaseXBy1()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.W);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(-1));
+            Assert.That(drone.Point.X, Is.EqualTo(-1));
         }
 
         [Test]
         public void GivenAWestOrientation_WhenMovingOutsideOfPolygon_ThenWillNotDecreaseX()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(false);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(false);
             var drone = Drone.FromPoint(OriginPoint, Orientation.W);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(0));
+            Assert.That(drone.Point.X, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenAWestOrientation_WhenMoving_ThenWillNotChangeYValue()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.W);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(0));
+            Assert.That(drone.Point.Y, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenANorthOrientation_WhenMovingWithinPolygon_ThenWillIncreaseYBy1()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.N);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(1));
+            Assert.That(drone.Point.Y, Is.EqualTo(1));
         }
 
         [Test]
         public void GivenANorthOrientation_WhenMovingOutsideOfPolygon_ThenWillNotIncreaseY()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(false);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(false);
             var drone = Drone.FromPoint(OriginPoint, Orientation.N);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(0));
+            Assert.That(drone.Point.Y, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenANorthOrientation_WhenMoving_ThenWillNotChangeXValue()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.N);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(0));
+            Assert.That(drone.Point.X, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenASouthOrientation_WhenMovingWithinPolygon_ThenWillDecreaseYBy1()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.S);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(-1));
+            Assert.That(drone.Point.Y, Is.EqualTo(-1));
         }
 
         [Test]
         public void GivenASouthOrientation_WhenMovingOutsideOfPolygon_ThenWillNotDecreaseY()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(false);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(false);
             var drone = Drone.FromPoint(OriginPoint, Orientation.S);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.Y, Is.EqualTo(0));
+            Assert.That(drone.Point.Y, Is.EqualTo(0));
         }
 
         [Test]
         public void GivenASouthOrientation_WhenMoving_ThenWillNotChangeXValue()
         {
-            _polygonMock.Setup(x => x.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(x => x.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(OriginPoint, Orientation.N);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(0));
+            Assert.That(drone.Point.X, Is.EqualTo(0));
         }
 
         [TestCase(0, int.MaxValue, Orientation.N)]
@@ -182,13 +194,24 @@ namespace Esbe.SG.CodingGame
         [TestCase(int.MinValue, 0, Orientation.W)]
         public void GivenAPointAtInt32LimitValue_WhenMoving_ThenWillNotChangeValue(int x, int y, Orientation orientation)
         {
-            _polygonMock.Setup(p => p.IsOverlapping(It.IsAny<Point>())).Returns(true);
+            _battlefieldAreaMock.Setup(p => p.Contains(It.IsAny<Point>())).Returns(true);
             var drone = Drone.FromPoint(new Point(x, y), orientation);
+            drone.SetBattlefieldArea(_battlefieldAreaMock.Object);
 
-            drone.MoveWithin(_polygonMock.Object);
+            drone.Move();
 
-            Assert.That(drone.X, Is.EqualTo(x));
-            Assert.That(drone.Y, Is.EqualTo(y));
+            Assert.That(drone.Point.X, Is.EqualTo(x));
+            Assert.That(drone.Point.Y, Is.EqualTo(y));
+        }
+
+        [Test]
+        public void GivenADrone_WhenConvertingToString_ThenWillBeInExpectedFormat()
+        {
+            var drone = Drone.FromPoint(new Point(1, 2), Orientation.N);
+
+            var stringValue = drone.ToString();
+
+            Assert.That(stringValue, Is.EqualTo("1 2 N"));
         }
     }
 }
