@@ -47,14 +47,15 @@ Test Input:
 
 ## Usage
 
-- The library can currently only be run from NUnit tests, so ReSharper, NCrunch, TestDriven.net or any other test runner is required.
+- The library can currently be run from NUnit tests, so ReSharper, NCrunch, TestDriven.net or any other test runner is required.
+- The library can also be run from the Esbe.SG.CodingGame.Console console application.
 
 ## Assumptions/Decisions
 
 - The top right corner of the board refers to conventional axis representation 
-  ![Image of conventional x,y axes](https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg)
+![Image of conventional x,y axes](https://www.greatescapepublishing.com/wp-content/uploads/thephotographerslife/wp-content/media//2014/06/xy-axes-300x295.jpg)
   and **not** 
-  ![Image of unconventional x,y axes](https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png).
+![Image of unconventional x,y axes](https://www.haiku-os.org/legacy-docs/bebook/images/TheInterfaceKit/coords2.png).
 - A board with a top-right position of {0,0} is permitted.
 - Extra spaces are permitted on both board and drone configuration lines, as the user intent is still clear.
 - A drone can be configured with either negative x or y, but will fail from being placed on the board.
@@ -67,8 +68,14 @@ Test Input:
 
 ## Known limitations
 
-- 
+- The Esbe.SG.CodingGame.Console should support a file path flag.
+
+## Dependencies
+
+- JetBrains.Annotations: For pre-compilation contract validation. Attributes are removed by default from metada on compilation, so no dependency is required at runtime.
+- Moq: Test mocking framework. Only used on Test projects.
+- NUnit: Test framework. Only used on Test projects.
 
 ## Extensibility
 
--
+- We could leverage an external library like SixLabors.Shapes (which is currently only in beta) to support complex battlefield maps.

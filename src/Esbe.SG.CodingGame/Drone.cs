@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using JetBrains.Annotations;
 
 namespace Esbe.SG.CodingGame
@@ -34,9 +35,7 @@ namespace Esbe.SG.CodingGame
         /// </summary>
         public void TurnRight()
         {
-            Orientation = Orientation == Orientation.W
-                ? Orientation.N
-                : Orientation + 1;
+            Orientation = Orientation.Right90Degrees();
         }
 
         /// <summary>
@@ -44,9 +43,7 @@ namespace Esbe.SG.CodingGame
         /// </summary>
         public void TurnLeft()
         {
-            Orientation = Orientation == Orientation.N
-                ? Orientation.W
-                : Orientation - 1;
+            Orientation = Orientation.Left90Degrees();
         }
 
         /// <summary>
@@ -88,36 +85,17 @@ namespace Esbe.SG.CodingGame
         /// <returns>The potential position of the drone after having moved.</returns>
         private Point CalculateMovePoint()
         {
-            switch (Orientation)
+            checked
             {
-                case Orientation.N:
-                    if (Point.Y == int.MaxValue)
-                    {
-                        return Point;
-                    }
-
-                    return new Point(Point.X, Point.Y + 1);
-                case Orientation.E:
-                    if (Point.X == int.MaxValue)
-                    {
-                        return Point;
-                    }
-
-                    return new Point(Point.X + 1, Point.Y);
-                case Orientation.S:
-                    if (Point.Y == int.MinValue)
-                    {
-                        return Point;
-                    }
-
-                    return new Point(Point.X, Point.Y - 1);
-                default:
-                    if (Point.X == int.MinValue)
-                    {
-                        return Point;
-                    }
-
-                    return new Point(Point.X - 1, Point.Y);
+                try
+                {
+                    var size = Orientation.Size();
+                    return new Point(Point.X + size.Width, Point.Y + size.Height);
+                }
+                catch (ArithmeticException)
+                {
+                    return Point;
+                }
             }
         }
 
